@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/authService";
 import { AuthContext } from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
+import { socket } from "../services/socket"; // ✅ ADD THIS
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -23,8 +24,11 @@ const Login = () => {
 
             const res = await loginUser({ email, password });
 
-            // ✅ IMPORTANT FIX: token + user
+            // ✅ Save auth data
             login(res.data.token, res.data.user);
+
+            // ✅ CONNECT SOCKET ONLY AFTER LOGIN
+            socket.connect();
 
             navigate("/dashboard");
         } catch (err) {
