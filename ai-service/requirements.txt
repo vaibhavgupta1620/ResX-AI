@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+spacy
+pydantic
+python-dotenv
+scikit-learn
