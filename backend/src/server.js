@@ -4,17 +4,18 @@ const app = require("./app");
 const connectDB = require("./config/db");
 const { Server } = require("socket.io");
 
-/* ---------------- DB CONNECT ---------------- */
+/* ================= DB CONNECT ================= */
 connectDB();
 
-/* ---------------- HTTP SERVER ---------------- */
+/* ================= HTTP SERVER ================= */
 const server = http.createServer(app);
 
-/* ---------------- SOCKET.IO ---------------- */
+/* ================= SOCKET.IO ================= */
 const io = new Server(server, {
     cors: {
-        origin: "*", // frontend URL later
-        methods: ["GET", "POST"],
+        origin: process.env.FRONTEND_ORIGIN, // Vercel frontend URL
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true,
     },
 });
 
@@ -26,10 +27,10 @@ io.on("connection", (socket) => {
     });
 });
 
-/* 🔑 Make io available inside controllers */
+/* 🔑 Make io accessible inside controllers */
 app.set("io", io);
 
-/* ---------------- START SERVER ---------------- */
+/* ================= START SERVER ================= */
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
