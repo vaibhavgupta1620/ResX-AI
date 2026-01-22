@@ -73,7 +73,6 @@ const Dashboard = () => {
                 <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
                     <SidebarLink to="/dashboard" icon={<LayoutDashboard />} label="Dashboard" />
                     <SidebarLink to="/resume-analyzer" icon={<FileText />} label="Resume Analyzer" />
-                    <SidebarLink to="/analytics" icon={<BarChart3 />} label="Analytics" />
                     <SidebarLink to="/settings" icon={<Settings />} label="Settings" />
                 </nav>
 
