@@ -6,7 +6,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
 import DashboardHome from "./pages/DashboardHome";
 import ResumeAnalyzer from "./pages/ResumeAnalyzer";
-import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
 
 function App() {
@@ -29,7 +28,6 @@ function App() {
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<DashboardHome />} />
             <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
-            <Route path="/analytics" element={<Analytics />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
 
