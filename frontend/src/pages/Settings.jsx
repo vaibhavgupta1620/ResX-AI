@@ -123,12 +123,6 @@ const ProfileSection = ({ profile, setProfile }) => (
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Select
-                label="Role"
-                value={profile.role}
-                options={["HR Manager", "Recruiter", "Talent Acquisition", "Admin"]}
-                onChange={(v) => setProfile({ ...profile, role: v })}
-            />
             <Input
                 label="Change Password"
                 type="password"
