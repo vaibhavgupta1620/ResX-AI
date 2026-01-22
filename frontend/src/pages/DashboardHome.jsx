@@ -21,15 +21,13 @@ import {
 /* ---------------- COLORS ---------------- */
 
 const SKILL_COLORS = [
-    "#7dd3fc", // blue
-    "#c084fc", // purple
-    "#fb7185", // pink
-    "#fbbf24", // amber
-    "#34d399", // green
-    "#60a5fa", // indigo
+    "#7dd3fc",
+    "#c084fc",
+    "#fb7185",
+    "#fbbf24",
+    "#34d399",
+    "#60a5fa",
 ];
-
-/* ---------------- COMPONENT ---------------- */
 
 const DashboardHome = () => {
     const [loading, setLoading] = useState(true);
@@ -45,7 +43,7 @@ const DashboardHome = () => {
             const res = await api.get("/resume/dashboard");
             setDashboard(res.data);
         } catch (err) {
-            console.error(err);
+            console.error("Dashboard error", err);
         } finally {
             setLoading(false);
         }
@@ -58,7 +56,11 @@ const DashboardHome = () => {
     }, []);
 
     if (loading) {
-        return <p className="text-gray-400">Loading dashboard...</p>;
+        return (
+            <p className="text-gray-500 dark:text-gray-400">
+                Loading dashboard...
+            </p>
+        );
     }
 
     const totalSkills = dashboard.topSkills.reduce(
@@ -76,13 +78,13 @@ const DashboardHome = () => {
         <>
             {/* HEADER */}
             <div className="mb-10">
-                <h1 className="text-3xl font-bold text-purple-400">
+                <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400">
                     ATS Resume Analyzer
                 </h1>
-                <p className="text-gray-400 mt-1">
+                <p className="text-gray-600 dark:text-gray-400 mt-1">
                     AI-powered candidate analysis
                 </p>
-                <div className="h-px mt-6 bg-gradient-to-r from-purple-500/50 via-blue-500/50 to-transparent" />
+                <div className="h-px mt-6 bg-gradient-to-r from-purple-500/40 via-blue-500/40 to-transparent" />
             </div>
 
             {/* STATS */}
@@ -94,16 +96,16 @@ const DashboardHome = () => {
             </div>
 
             {/* TOP SKILLS */}
-            <DarkCard>
+            <ThemeCard>
                 <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-lg font-semibold text-gray-100">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                         Top Skills Detected
                     </h3>
                     <MoreVertical className="text-gray-400" />
                 </div>
 
                 {pieData.length === 0 ? (
-                    <p className="text-gray-400 text-center">
+                    <p className="text-gray-500 dark:text-gray-400 text-center">
                         Upload resumes to see skills
                     </p>
                 ) : (
@@ -125,58 +127,57 @@ const DashboardHome = () => {
                                         />
                                     ))}
                                 </Pie>
-                                <Tooltip
-                                    contentStyle={{
-                                        background: "#020617",
-                                        border: "1px solid rgba(255,255,255,0.1)",
-                                        borderRadius: 8,
-                                        color: "#fff",
-                                    }}
-                                />
+                                <Tooltip />
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
                 )}
-            </DarkCard>
+            </ThemeCard>
 
-            {/* RECENT + QUEUE */}
+            {/* QUEUE + RECENT */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-12">
-                <DarkCard>
-                    <h3 className="text-lg font-semibold text-gray-100 mb-4">
+                <ThemeCard>
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
                         Processing Queue
                     </h3>
-                    <div className="h-40 flex items-center justify-center text-gray-400">
+                    <div className="h-40 flex items-center justify-center text-gray-500 dark:text-gray-400">
                         <Clock size={32} />
                         <span className="ml-2">No resumes processing</span>
                     </div>
-                </DarkCard>
+                </ThemeCard>
 
-                <DarkCard>
-                    <h3 className="text-lg font-semibold text-gray-100 mb-4">
+                <ThemeCard>
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
                         Recent Resumes
                     </h3>
 
-                    {dashboard.recentResumes.map((r) => (
-                        <RecentResume
-                            key={r._id}
-                            initials={r.filename.slice(0, 2).toUpperCase()}
-                            name={r.filename}
-                            date={new Date(r.createdAt).toLocaleDateString()}
-                            score={`${r.score}%`}
-                        />
-                    ))}
-                </DarkCard>
+                    {dashboard.recentResumes.length === 0 ? (
+                        <p className="text-gray-500 dark:text-gray-400">
+                            No resumes uploaded yet
+                        </p>
+                    ) : (
+                        dashboard.recentResumes.map((r) => (
+                            <RecentResume
+                                key={r._id}
+                                initials={r.filename.slice(0, 2).toUpperCase()}
+                                name={r.filename}
+                                date={new Date(r.createdAt).toLocaleDateString()}
+                                score={`${r.score}%`}
+                            />
+                        ))
+                    )}
+                </ThemeCard>
             </div>
 
             {/* SCORE DISTRIBUTION */}
             <div className="mt-12">
-                <DarkCard>
-                    <h3 className="text-lg font-semibold text-gray-100 mb-6">
+                <ThemeCard>
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
                         Score Distribution
                     </h3>
 
                     {!dashboard.scoreDistribution.length ? (
-                        <p className="text-gray-400">
+                        <p className="text-gray-500 dark:text-gray-400">
                             No data available
                         </p>
                     ) : (
@@ -188,27 +189,10 @@ const DashboardHome = () => {
                                         percent: Math.round(s.percent * 100),
                                     }))}
                                 >
-                                    <CartesianGrid
-                                        strokeDasharray="3 3"
-                                        stroke="rgba(255,255,255,0.08)"
-                                    />
-                                    <XAxis
-                                        dataKey="range"
-                                        stroke="#9ca3af"
-                                    />
-                                    <YAxis
-                                        unit="%"
-                                        stroke="#9ca3af"
-                                    />
-                                    <Tooltip
-                                        contentStyle={{
-                                            background: "#020617",
-                                            border: "1px solid rgba(255,255,255,0.1)",
-                                            borderRadius: 8,
-                                            color: "#fff",
-                                        }}
-                                        cursor={{ fill: "rgba(255,255,255,0.05)" }}
-                                    />
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="range" />
+                                    <YAxis unit="%" />
+                                    <Tooltip />
                                     <Bar
                                         dataKey="percent"
                                         fill="#a78bfa"
@@ -218,59 +202,65 @@ const DashboardHome = () => {
                             </ResponsiveContainer>
                         </div>
                     )}
-                </DarkCard>
+                </ThemeCard>
             </div>
-
-
         </>
     );
 };
 
-/* ---------------- UI COMPONENTS ---------------- */
+/* ---------------- COMPONENTS ---------------- */
 
-const DarkCard = ({ children }) => (
-    <div className="
+const ThemeCard = ({ children }) => (
+    <div
+        className="
         rounded-2xl p-6
-        bg-gradient-to-br from-[#020617] to-[#020617]/80
-        border border-white/10
-        shadow-xl
-    ">
+        bg-white
+        dark:bg-gradient-to-br dark:from-[#020617] dark:to-[#020617]/80
+        border border-gray-200 dark:border-white/10
+        shadow-sm dark:shadow-xl
+        transition-colors
+        "
+    >
         {children}
     </div>
 );
 
 const StatCard = ({ icon, label, value }) => (
-    <div className="
+    <div
+        className="
         relative rounded-xl p-6
-        bg-gradient-to-br from-[#020617] to-[#020617]/70
-        border border-white/10
-    ">
-        <div className="absolute top-4 right-4 text-purple-400">
+        bg-white
+        dark:bg-gradient-to-br dark:from-[#020617] dark:to-[#020617]/70
+        border border-gray-200 dark:border-white/10
+        transition-colors
+        "
+    >
+        <div className="absolute top-4 right-4 text-purple-500 dark:text-purple-400">
             {icon}
         </div>
-        <p className="text-sm text-gray-400">{label}</p>
-        <h3 className="text-2xl font-bold text-white mt-2">
+        <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
             {value}
         </h3>
     </div>
 );
 
 const RecentResume = ({ initials, name, date, score }) => (
-    <div className="
-        flex items-center justify-between
-        p-3 rounded-lg
-        hover:bg-white/5 transition
-    ">
+    <div className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition">
         <div className="flex gap-3 items-center">
             <div className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-semibold">
                 {initials}
             </div>
             <div>
-                <p className="text-sm font-medium text-white">{name}</p>
-                <p className="text-xs text-gray-400">{date}</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    {name}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {date}
+                </p>
             </div>
         </div>
-        <span className="text-green-400 text-sm font-medium">
+        <span className="text-green-600 dark:text-green-400 text-sm font-medium">
             ⭐ {score}
         </span>
     </div>
