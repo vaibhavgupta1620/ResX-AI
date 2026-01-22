@@ -92,7 +92,6 @@ const DashboardHome = () => {
                 <StatCard icon={<FileText />} label="Total Resumes" value={dashboard.stats.total} />
                 <StatCard icon={<Users />} label="Analyzed Resumes" value={dashboard.stats.analyzed} />
                 <StatCard icon={<Star />} label="Avg. Match Score" value={`${dashboard.stats.avgScore}%`} />
-                <StatCard icon={<Clock />} label="Avg. Processing Time" value={`${dashboard.stats.avgTime} min`} />
             </div>
 
             {/* TOP SKILLS */}
@@ -136,15 +135,6 @@ const DashboardHome = () => {
 
             {/* QUEUE + RECENT */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-12">
-                <ThemeCard>
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-                        Processing Queue
-                    </h3>
-                    <div className="h-40 flex items-center justify-center text-gray-500 dark:text-gray-400">
-                        <Clock size={32} />
-                        <span className="ml-2">No resumes processing</span>
-                    </div>
-                </ThemeCard>
 
                 <ThemeCard>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
